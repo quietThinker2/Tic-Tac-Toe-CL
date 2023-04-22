@@ -15,6 +15,7 @@ fun playIntro(){
     println("2 Against Player")
     println("Press a Number: ")
 
+
     // Verify the user input and direct the flow
     when (readln()){
         /* The flow for when the game is active:
@@ -103,10 +104,13 @@ fun checkWinner(){
     // check for a horizontal win
     for (i in 0..6 step 3) {
         if (boardData[i] == boardData[i+1] && boardData[i+1] == boardData[i+2] && boardData[i].isNotBlank()) {
-            println("${boardData[i]} wins!")
             showBoard()
-            println("${boardData[i]} wins!")
-            running = false
+            println("${boardData[i]} wins horizontal!")
+
+            // Reset board and start intro
+            boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
+            println()
+            playIntro()
             return
         }
     }
@@ -114,29 +118,38 @@ fun checkWinner(){
     // check for a vertical win
     for (i in 0..2) {
         if (boardData[i] == boardData[i+3] && boardData[i+3] == boardData[i+6] && boardData[i].isNotBlank()) {
-            println("${boardData[i]} wins!")
             showBoard()
-            println("${boardData[i]} wins!")
-            running = false
+            println("${boardData[i]} wins vertical!")
+
+            // Reset board and start intro
+            boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
+            println()
+            playIntro()
             return
         }
     }
 
     // check for a diagonal win
     if (boardData[0] == boardData[4] && boardData[4] == boardData[8] && boardData[0].isNotBlank()) {
-        println("${boardData[0]} wins!")
         showBoard()
-        println("${boardData[0]} wins!")
-        running = false
+        println("${boardData[0]} wins diagonal!")
+
+        // Reset board and start intro
+        boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
+        println()
+        playIntro()
         return
     }
 
     // check for other diagonal win
     if (boardData[2] == boardData[4] && boardData[4] == boardData[6] && boardData[2].isNotBlank()) {
-        println("${boardData[2]} wins!")
         showBoard()
-        println("${boardData[2]} wins!")
-        running = false
+        println("${boardData[2]} wins diagonal!")
+
+        // Reset board and start intro
+        boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
+        println()
+        playIntro()
         return
     }
 }
