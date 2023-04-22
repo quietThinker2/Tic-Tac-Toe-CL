@@ -1,21 +1,32 @@
 import kotlin.random.Random
 
-val boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
+var boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
 var running = true
 
+// This function is to start up the intro function of the Tic Tac Toe Program
 fun main() {
-    intro()
+    playIntro()
 }
 
-fun intro(){
+// This function is to display game modes to the user and have them pick a mode
+fun playIntro(){
     println("Tic Tac Toe")
     println("1 Against Easy Computer")
     println("2 Against Player")
     println("Press a Number: ")
 
+    // Verify the user input and direct the flow
     when (readln()){
+        /* The flow for when the game is active:
+             -1. Display the board
+             -2. Player X will go
+             -3. Check if any winning moves were made
+             -4. Repeat the above for player O/computer
+             -5. Go back to 1                           */
+
+        // The Player VS Easy Computer Mode
         "1" -> while (running){
-            board()
+            showBoard()
             playerPrompt("X")
             checkWinner()
             if (running){
@@ -23,23 +34,25 @@ fun intro(){
                 checkWinner()
             }
         }
+        // The Player BS Player Mode
         "2" -> while (running){
-            board()
+            showBoard()
             playerPrompt("X")
             checkWinner()
             if (running){
-                board()
+                showBoard()
                 playerPrompt("O")
                 checkWinner()
             }
         }
-        else -> intro()
+        // For invalid input restart the playIntro function
+        else -> playIntro()
     }
 
 }
 
-//
-fun board(){
+// This function displays the board with any changes made
+fun showBoard(){
     println()
     println("  "+boardData[0]+" |  "+boardData[1]+" |  "+boardData[2]+" ")
     println("--------------")
@@ -49,12 +62,18 @@ fun board(){
 
 }
 
+// This function makes the Player move and marks it on the board
 fun playerPrompt(playerSymbol : String){
-    println("Submit a Letter - $playerSymbol: ")
+
+    // Prompts which player turn it is with associating if they are X or O
+    println("Submit a Letter - Player $playerSymbol: ")
+
+    // Check that input is a valid move for the board
     val input = readln()
     if (input == "A" || input == "B" || input == "C" || input == "D" || input == "E" || input == "F" || input == "G" || input == "H" || input == "I") {
         try {
 
+            // Place player symbol and place it on according spot
             val index = boardData.indexOf(input)
             if (boardData[index] != "X" || boardData[index] != "O") {
                 boardData[index] = playerSymbol
@@ -68,7 +87,7 @@ fun playerPrompt(playerSymbol : String){
         playerPrompt(playerSymbol)
     }
 }
-
+// Easy Computer function to randonly place a O on a valid spot
 fun computerPrompt(){
     val randomNum = Random.nextInt(0,8)
     if (boardData[randomNum] == "X" || boardData[randomNum] == "O") {
@@ -85,7 +104,7 @@ fun checkWinner(){
     for (i in 0..6 step 3) {
         if (boardData[i] == boardData[i+1] && boardData[i+1] == boardData[i+2] && boardData[i].isNotBlank()) {
             println("${boardData[i]} wins!")
-            board()
+            showBoard()
             println("${boardData[i]} wins!")
             running = false
             return
@@ -96,7 +115,7 @@ fun checkWinner(){
     for (i in 0..2) {
         if (boardData[i] == boardData[i+3] && boardData[i+3] == boardData[i+6] && boardData[i].isNotBlank()) {
             println("${boardData[i]} wins!")
-            board()
+            showBoard()
             println("${boardData[i]} wins!")
             running = false
             return
@@ -106,17 +125,18 @@ fun checkWinner(){
     // check for a diagonal win
     if (boardData[0] == boardData[4] && boardData[4] == boardData[8] && boardData[0].isNotBlank()) {
         println("${boardData[0]} wins!")
-        board()
+        showBoard()
         println("${boardData[0]} wins!")
         running = false
         return
     }
+
+    // check for other diagonal win
     if (boardData[2] == boardData[4] && boardData[4] == boardData[6] && boardData[2].isNotBlank()) {
         println("${boardData[2]} wins!")
-        board()
+        showBoard()
         println("${boardData[2]} wins!")
         running = false
         return
     }
 }
-
