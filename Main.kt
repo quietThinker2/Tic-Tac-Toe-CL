@@ -75,13 +75,13 @@ fun playerPrompt(playerSymbol : String){
 
     // Get input from the user
     val input = readln()
-    
+
     // User able to force close the program
     if (input == "Q") {
         exitProcess(0)
     }
 
-    // Check that input is a valid move for the board    
+    // Check that input is a valid move for the board
     if (input == "A" || input == "B" || input == "C" || input == "D" || input == "E" || input == "F" || input == "G" || input == "H" || input == "I") {
         try {
 
@@ -156,6 +156,19 @@ fun checkWinner(){
     if (boardData[2] == boardData[4] && boardData[4] == boardData[6] && boardData[2].isNotBlank()) {
         showBoard()
         println("${boardData[2]} wins diagonal!")
+
+        // Reset board and start intro
+        boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
+        println()
+        playIntro()
+        return
+    }
+
+    // check if there is a stalemate
+    var containsOnlyXandO = boardData.all { it == "X" || it == "O" }
+    if (containsOnlyXandO) {
+        showBoard()
+        println("Stalemate no one wins!")
 
         // Reset board and start intro
         boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
