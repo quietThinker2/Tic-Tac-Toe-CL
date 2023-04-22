@@ -1,4 +1,5 @@
 import kotlin.random.Random
+import kotlin.system.exitProcess
 
 var boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
 var running = true
@@ -13,6 +14,7 @@ fun playIntro(){
     println("Tic Tac Toe")
     println("1 Against Easy Computer")
     println("2 Against Player")
+    println("3 Exit Program")
     println("Press a Number: ")
 
 
@@ -46,6 +48,7 @@ fun playIntro(){
                 checkWinner()
             }
         }
+        "3" -> exitProcess(0)
         // For invalid input restart the playIntro function
         else -> playIntro()
     }
@@ -67,10 +70,18 @@ fun showBoard(){
 fun playerPrompt(playerSymbol : String){
 
     // Prompts which player turn it is with associating if they are X or O
+    println("Submit Q to quit program")
     println("Submit a Letter - Player $playerSymbol: ")
 
-    // Check that input is a valid move for the board
+    // Get input from the user
     val input = readln()
+    
+    // User able to force close the program
+    if (input == "Q") {
+        exitProcess(0)
+    }
+
+    // Check that input is a valid move for the board    
     if (input == "A" || input == "B" || input == "C" || input == "D" || input == "E" || input == "F" || input == "G" || input == "H" || input == "I") {
         try {
 
