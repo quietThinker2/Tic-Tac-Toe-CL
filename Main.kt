@@ -1,20 +1,9 @@
-import kotlin.random.Random
 import kotlin.system.exitProcess
 
 var boardData = mutableListOf("A","B","C","D","E","F","G","H","I")
 var running = true
 
-// Define the constant list of winning paths
-val WINNING_PATHS = listOf(
-    listOf(0, 1, 2), // Top row
-    listOf(3, 4, 5), // Middle row
-    listOf(6, 7, 8), // Bottom row
-    listOf(0, 3, 6), // Left column
-    listOf(1, 4, 7), // Middle column
-    listOf(2, 5, 8), // Right column
-    listOf(0, 4, 8), // Top-left to bottom-right diagonal
-    listOf(2, 4, 6) // Top-right to bottom-left diagonal
-)
+
 
 // This function is to start up the intro function of the Tic Tac Toe Program
 fun main() {
@@ -47,7 +36,8 @@ fun playIntro(){
             human1.getHumanInput()
             checkWinner()
             if (running){
-                computerPromptEasy()
+                val computer = Computer("O")
+                computer.easyMode()
                 checkWinner()
             }
         }
@@ -58,7 +48,8 @@ fun playIntro(){
             human1.getHumanInput()
             checkWinner()
             if (running){
-                computerPromptHard()
+                val computer = Computer("O")
+                computer.hardMode()
                 checkWinner()
             }
         }
@@ -94,69 +85,6 @@ fun displayBoard(){
 }
 
 
-// Easy Computer function to randomly place a O on a valid square
-fun computerPromptEasy(){
-    val randomNum = Random.nextInt(0,8)
-    if (boardData[randomNum] == "X" || boardData[randomNum] == "O") {
-        computerPromptEasy()
-    } else {
-        boardData[randomNum] = "O"
-    }
-}
-
-fun computerPromptHard() {
-    // Check if the Computer can win
-    // Check if the Computer can block the player
-    // Take the Center
-    //
-
-    // Check if the computer can Win
-    for (path in WINNING_PATHS) {
-        val count = path.count { boardData[it] == "O" }
-        if (count == 2) {
-            // Find the missing 'X'
-            val missingIndex = getMissingIndex(path)
-            if (missingIndex != null) {
-                // Make the winning move
-                boardData[missingIndex] = "O"
-                return
-            }
-        }
-    }
-    // Check if the computer can Block
-    for (path in WINNING_PATHS) {
-        val count = path.count { boardData[it] == "X" }
-        if (count == 2) {
-            // Find the missing 'O'
-            val missingIndex = getMissingIndex(path)
-            if (missingIndex != null) {
-                // Make the winning move
-                boardData[missingIndex] = "O"
-                return
-            }
-        }
-    }
-
-    // Have the Computer take the center if possible
-    if (boardData[4] != "X" && boardData[4] != "O"){
-        boardData[4] = "O"
-        return
-    }
-
-    // If the computer can't win/block/take center, make a random move
-    val emptyIndexes = boardData.indices.filter { boardData[it] != "X" && boardData[it] != "O" }
-    val randomIndex = emptyIndexes.random()
-    boardData[randomIndex] = "O"
-}
-
-fun getMissingIndex(path: List<Int>): Int? {
-    for (index in path) {
-        if (boardData[index] != "X" && boardData[index] != "O") {
-            return index
-        }
-    }
-    return null
-}
 
 fun checkWinner(){
     // check for a horizontal win
