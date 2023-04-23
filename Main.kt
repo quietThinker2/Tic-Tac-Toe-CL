@@ -43,7 +43,8 @@ fun playIntro(){
         // The Player VS Easy Computer Mode
         "1" -> while (running){
             displayBoard()
-            playerPrompt("X")
+            val human1 = Human("X")
+            human1.getHumanInput()
             checkWinner()
             if (running){
                 computerPromptEasy()
@@ -53,7 +54,8 @@ fun playIntro(){
         // The Player VS Hard Computer Mode
         "2" -> while (running){
             displayBoard()
-            playerPrompt("X")
+            val human1 = Human("X")
+            human1.getHumanInput()
             checkWinner()
             if (running){
                 computerPromptHard()
@@ -63,11 +65,13 @@ fun playIntro(){
         // The Player VS Player Mode
         "3" -> while (running){
             displayBoard()
-            playerPrompt("X")
+            val human1 = Human("X")
+            human1.getHumanInput()
             checkWinner()
             if (running){
                 displayBoard()
-                playerPrompt("O")
+                val human2 = Human("O")
+                human2.getHumanInput()
                 checkWinner()
             }
         }
@@ -89,39 +93,7 @@ fun displayBoard(){
 
 }
 
-// This function makes the Player move and marks it on the board
-fun playerPrompt(playerSymbol : String){
 
-    // Prompts which player turn it is with associating if they are X or O
-    println("Submit Q to quit program")
-    println("Submit a Letter - Player $playerSymbol: ")
-
-    // Get input from the user
-    val input = readln()
-
-    // User able to force close the program
-    if (input == "Q") {
-        exitProcess(0)
-    }
-
-    // Check that input is a valid move for the board
-    if (input == "A" || input == "B" || input == "C" || input == "D" || input == "E" || input == "F" || input == "G" || input == "H" || input == "I") {
-        try {
-
-            // Place player symbol and place it on according spot
-            val index = boardData.indexOf(input)
-            if (boardData[index] != "X" || boardData[index] != "O") {
-                boardData[index] = playerSymbol
-            } else {
-                println("Already X or an O")
-            }
-        } catch (e: IndexOutOfBoundsException){
-            playerPrompt(playerSymbol)
-        }
-    } else {
-        playerPrompt(playerSymbol)
-    }
-}
 // Easy Computer function to randomly place a O on a valid square
 fun computerPromptEasy(){
     val randomNum = Random.nextInt(0,8)
@@ -155,7 +127,7 @@ fun computerPromptHard() {
     for (path in WINNING_PATHS) {
         val count = path.count { boardData[it] == "X" }
         if (count == 2) {
-            // Find the missing 'X'
+            // Find the missing 'O'
             val missingIndex = getMissingIndex(path)
             if (missingIndex != null) {
                 // Make the winning move
